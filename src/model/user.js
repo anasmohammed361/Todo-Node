@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import mongoose ,{ Schema, model } from "mongoose";
 import passportLocalMongoose from 'passport-local-mongoose';
 import passportFindOrCreatePlugin from "mongoose-findorcreate"
 //Schema
@@ -8,17 +8,15 @@ const userSchema = new Schema({
         unique:true,
         required:true
     },
-    password:{
-        type:String
-    },
     googleId:{
         type:String
     },
     photoUrl:{
         type:String
     },
-    userData:{
-        type:Map
+    dataId:{
+        type:mongoose.ObjectId,
+        ref:'Todo'
     }
 })
 

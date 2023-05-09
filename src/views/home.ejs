@@ -12,8 +12,13 @@
     <main class="max-w-2xl  mx-auto mt-12">
             <h1 class="text-center font-['Roboto'] text-white text-3xl font-bold"> To Do List</h1>
         <section class="flex  gap-4 justify-start my-10">
-                <img src="/src/public/images/images.jpeg" class="rounded-full aspect-square w-14" alt="img">
-                <p class="text-white font-bold mt-2">Mohammed Anas</p>
+            <% if (photoUrl) { %>
+                <img src="<%=photoUrl %>" class="rounded-full aspect-square w-14" alt="img">
+            <%} else { %>
+                    <img src="/public/images/profile.jpeg" class="rounded-full aspect-square w-14" alt="img">
+            <% } %>
+                
+                <p class="text-white font-bold mt-2"> <%= username %> </p>
         </section>
         <section class="bg-[#21212b] p-8 rounded-md space-y-10">
             <div class="flex items-center justify-between">
@@ -23,21 +28,23 @@
                 </div>
                 <button class=" text-white bg-[#414052] px-3 py-2 rounded-lg">Done</button>
             </div>
-            
         </section>
 
 
 
-            <form  class="">
+            <form  >
                 <div class="input-item flex flex-col bg-[#21212b] rounded-t-md p-5 mt-4">
-                    <label for="input" class="text-[#5e5e64] text-lg font-bold ">Add to List</label>
-                <input type="text" class="bg-transparent  text-white focus:outline-none focus:ring-0" placeholder="....">
+                <label for="input" class="text-[#5e5e64] text-lg font-bold ">Title</label>
+                <input type="text" class="bg-transparent  text-white focus:outline-none focus:ring-0 todo-input" placeholder="....">
+                <label for="input" class="text-[#5e5e64] mt-4 text-lg font-bold ">Content</label>
+                <input type="text" class="bg-transparent  text-white focus:outline-none focus:ring-0 todo-content" placeholder="....">
                 </div>
-                <button type="submit" class="w-full bg-[#272732] p-3 rounded-b-md text-slate-100 transition-all">Add Todo</button>
+                <button type="submit" class="w-full bg-[#272732] p-3 rounded-b-md text-slate-100 transition-all add-btn">Add Todo</button>
             </form>
-            <form >
+            <form action="/auth/signout" method="get">
                 <button type="submit" class="mx-auto  my-6 py-4 px-8 rounded-lg text-white block bg-[#272732] ">Signout</button>
             </form>
     </main>
+    <script src="/public/scripts/home.js"></script>
 </body>
 </html>

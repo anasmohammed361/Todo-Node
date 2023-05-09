@@ -7,7 +7,7 @@ googleRouter.get('/',
   passport.authenticate('google', { scope: ['profile'] }));
 
 googleRouter.get('/callback', 
-  passport.authenticate('google', { failureRedirect: '/login' }),
+  passport.authenticate('google', { failureRedirect: '/login',successRedirect:'/home' }),
   function(req, res) {
     // Successful authentication, redirect home.
     res.redirect('/home');
