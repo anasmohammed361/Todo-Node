@@ -59,7 +59,7 @@ apiRoute.route("/")
             await data.todos.pull({_id:req.body.itemId})
             await data.save()
             console.log(data.todos);
-            res.json(data)
+            res.json(data.todos)
         }else{
             res.sendStatus(400)
         }
