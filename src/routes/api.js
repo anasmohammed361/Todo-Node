@@ -54,7 +54,6 @@ apiRoute.route("/")
     if (req.isAuthenticated()) {
         const user = req.user;
         if(user.dataId && req.body.itemId){
-            console.log("del");
             const data =await dataModel.findOne({_id:user.dataId});
             await data.todos.pull({_id:req.body.itemId})
             await data.save()
@@ -67,6 +66,17 @@ apiRoute.route("/")
         res.sendStatus(400)
     }
 })
-
+.patch(async(req,res)=>{
+    if(req.isAuthenticated()){
+        const user = req.user;
+        if(user.dataId && req.body.itemId){
+            const data = await dataModel.findOne({_id:user.dataId});
+            const item = data.todos.filter((e)=>e._id == req.body.itemId)[0] ;
+            item.done = ! item.done;
+           await data.save()
+            res.json(data.todos)
+        }
+    }
+})
 
 export default apiRoute

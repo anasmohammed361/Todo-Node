@@ -115,7 +115,7 @@ app.get("/home",(req,res)=>{
         const user = req.user;
         res.render('home',{username:user.username,photoUrl:user.photoUrl})
     }else{
-        res.redirect("/signup")
+        res.redirect("/login")
 }})
 
 app.listen("3000",()=>{
