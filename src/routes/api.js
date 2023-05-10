@@ -10,36 +10,63 @@ apiRoute.route("/")
                 const data  =await dataModel.findOne({_id:req.user.dataId})
                 res.json(data.todos)
             }else{
-                res.send(400)
+                res.sendStatus(400)
                 console.log("Failed to identify a id");
             }
         } catch (error) {
-            res.send(500)
+            res.sendStatus(500)
         }
         
     }
 })
 .post(async(req,res)=>{
     if(req.isAuthenticated()){
-        if(req.user.dataId){
-            console.log("Has an existing id");
+        const user = req.user;
+        if(req.user.dataId && req.body.title && req.body.content){
+            const obj = {
+                title:req.body.title,
+                content:req.body.content,
+                done:false}
+            const data =await  dataModel.findOne({_id:req.user.dataId});
+            data.todos.push(obj);
+            await data.save();
+            res.json(data.todos);
         }else{
             console.log("Failed to Identify a id");
-            const user = req.user;
+            
             console.log(req.body);
-            const obj= new dataModel({
+            const obj = new dataModel({
                 todos:[
                     {
-                title:"Title",
-                content:"Content",
-                done:false}
-            ]
+                    title:req.body.title,
+                    content:req.body.content,
+                    done:false}
+                ]
             }) 
             await obj.save()
-            req.user.dataId = obj._id;
-            await req.user.save()
+            user.dataId = obj._id;
+            await user.save();
+            res.json(obj.todos);
         }
     }
 })
+.delete(async (req,res)=>{
+    if (req.isAuthenticated()) {
+        const user = req.user;
+        if(user.dataId && req.body.itemId){
+            console.log("del");
+            const data =await dataModel.findOne({_id:user.dataId});
+            await data.todos.pull({_id:req.body.itemId})
+            await data.save()
+            console.log(data.todos);
+            res.json(data)
+        }else{
+            res.sendStatus(400)
+        }
+    }else{
+        res.sendStatus(400)
+    }
+})
+
 
 export default apiRoute
